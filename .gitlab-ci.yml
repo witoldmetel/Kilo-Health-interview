@@ -1,0 +1,65 @@
+image: node:lts
+
+stages:
+  - Build prerequisites
+  - Test
+
+Install dependencies:
+  stage: Build prerequisites
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - node_modules
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 1 day
+  rules:
+    - if: $NODEJS_LINT_DISABLED == "true"
+      when: never
+    - when: always
+  script:
+    - |
+      {
+        echo '@kilomobile:registry=https://git.kilo.dev/api/v4/packages/npm/'
+        echo '@kilojs:registry=https://git.kilo.dev/api/v4/packages/npm/'
+        echo '//git.kilo.dev/api/v4/packages/npm/:_authToken=${CI_JOB_TOKEN}'
+        echo '//git.kilo.dev/api/v4/projects/:_authToken=${CI_JOB_TOKEN}'
+      } >> .npmrc
+    - yarn
+
+Lint:
+  stage: Test
+  script:
+    - yarn lint
+  needs:
+    - Install dependencies
+  rules:
+    - if: $NODEJS_LINT_DISABLED == "true"
+      when: never
+    - when: on_success
+
+Jest:
+  stage: Test
+  needs:
+    - Install dependencies
+  script:
+    - yarn test --coverage
+  coverage: /(Statements\s*:|All files[^|]*\|[^|]*)\s+([\d\.]+)/
+  rules:
+    - if: $NODEJS_LINT_DISABLED == "true"
+      when: never
+    - when: on_success
+
+Typescript:
+  stage: Test
+  needs:
+    - Install dependencies
+  script:
+    - yarn type-check
+  rules:
+    - if: $NODEJS_LINT_DISABLED == "true"
+      when: never
+    - when: on_success
