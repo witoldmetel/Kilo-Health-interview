@@ -48,9 +48,7 @@ const Navigator = () => {
   return (
     <NavigationContainer ref={navigationRef} onStateChange={onRouteChange}>
       <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
+        screenOptions={{ headerShown: false }}
         initialRouteName="Home"
       >
         <Stack.Screen name={Route.Home} component={HomeScreen} />
