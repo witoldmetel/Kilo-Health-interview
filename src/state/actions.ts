@@ -1,5 +1,5 @@
-import { AppSlice } from './app/AppSlice';
+import { QuestionsSlice } from './app/QuestionsSlice';
 
 export const actions = {
-  app: AppSlice.actions,
+  questions: QuestionsSlice.actions,
 };

@@ -1,57 +1,48 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Question } from '@typings/questions';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { setActiveQuestion } from '@state/app/QuestionsSlice';
+import {
+  selectActiveQuestion,
+  selectActiveQuestionIndex,
+  selectError,
+  selectIsLoading,
+  selectQuestions,
+} from '@state/selectors';
+import { fetchQuestionsRequest } from '@state/app/QuestionsSaga';
 
 export const useQuestions = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown>();
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(0);
+  const questions = useSelector(selectQuestions);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const activeQuestionIndex = useSelector(selectActiveQuestionIndex);
+  const activeQuestion = useSelector(selectActiveQuestion);
 
-  const fetchQuestions = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await axios.get(
-        // @todo: Move to consts
-        'https://api.jsonbin.io/v3/b/62cd20b4ecfa6c12a01fa4ed',
-      );
-
-      // @todo: Add better data checking
-      if (response && 'data' in response) {
-        setQuestions(response.data.record.questions);
-      }
-    } catch (error) {
-      setError(error);
-    }
-
-    setIsLoading(false);
-  };
-
-  const getActiveQuestion = () => questions[activeQuestionIndex];
-
-  const setActiveQuestion = () => {
+  const handleQuestionChange = () => {
     if (questions.length - 1 > activeQuestionIndex) {
-      setActiveQuestionIndex(prev => prev + 1);
+      dispatch(
+        setActiveQuestion({
+          index: activeQuestionIndex + 1,
+          question: questions[activeQuestionIndex + 1],
+        }),
+      );
     } else {
       navigation.navigate('home');
     }
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchQuestions();
-  }, []);
+    dispatch(fetchQuestionsRequest());
+  }, [dispatch]);
 
   return {
     isLoading,
     error,
     questions,
-    getActiveQuestion,
-    setActiveQuestion,
+    activeQuestion,
+    handleQuestionChange,
   };
 };

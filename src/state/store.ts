@@ -16,7 +16,7 @@ import { storage } from '../utils/storage';
 const persistorConfig = {
   key: '@GreatnessApp:state',
   storage,
-  whitelist: ['app'],
+  whitelist: ['questions'],
 };
 
 declare global {
@@ -48,7 +48,7 @@ export const configStore = (initialState?: PersistedAppState) => {
       // Optionally pass options listed below
       // State logging
       stateTransformer: (state: RootState) => ({
-        app: state.app,
+        questions: state.questionsReducer,
       }),
       // Actions logging
       //  actionTransformer: action => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@components/index';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { DefaultButton } from '@components/index';
+import { Button } from '@components/index';
 import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,12 +11,9 @@ export const AnswersScreen: React.FC = () => {
   return (
     <Container>
       <Wrapper>
-        <DefaultButton
-          onPress={() => navigation.navigate('home')}
-          title="Close quiz"
-        >
+        <Button onPress={() => navigation.navigate('home')} text="Close quiz">
           <MaterialIcon name="close" size={24} color="#612e3a" />
-        </DefaultButton>
+        </Button>
       </Wrapper>
     </Container>
   );

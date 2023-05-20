@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text } from 'react-native';
-import { CheckboxButton, DefaultButton } from '@components/index';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { Button } from '@components/index';
 import styled from 'styled-components';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { QuestionOption } from '@typings/questions';
@@ -8,34 +8,37 @@ import { QuestionOption } from '@typings/questions';
 import { useQuestions } from '../../hooks/useQuestions';
 
 export function QuestionWrapper() {
-  const { setActiveQuestion, getActiveQuestion } = useQuestions();
+  const { handleQuestionChange, activeQuestion } = useQuestions();
   const [selectedQuestions, setSelectedQuestions] = useState<QuestionOption[]>(
     [],
   );
 
-  const activeQuestion = getActiveQuestion();
+  console.log(
+    'file: QuestionWrapper.tsx:17 ~ QuestionWrapper ~ activeQuestion:',
+    activeQuestion,
+  );
 
   useEffect(() => {
     setSelectedQuestions([]);
-  }, [activeQuestion]);
+  }, []);
 
-  const selectQuestion = (value: string) => {
-    const questionToSelect = activeQuestion.options.find(
-      question => value === question.value,
-    ) as QuestionOption;
+  // const selectQuestion = (value: string) => {
+  //   const questionToSelect = activeQuestion.options.find(
+  //     question => value === question.value,
+  //   ) as QuestionOption;
 
-    const isQuestionSelected = selectedQuestions.some(
-      selectedQuestion => selectedQuestion.value === value,
-    );
+  //   const isQuestionSelected = selectedQuestions.some(
+  //     selectedQuestion => selectedQuestion.value === value,
+  //   );
 
-    setSelectedQuestions(prevQuestion => {
-      if (isQuestionSelected) {
-        return prevQuestion.filter(item => item.value !== value);
-      } else {
-        return [...prevQuestion, questionToSelect];
-      }
-    });
-  };
+  //   setSelectedQuestions(prevQuestion => {
+  //     if (isQuestionSelected) {
+  //       return prevQuestion.filter(item => item.value !== value);
+  //     } else {
+  //       return [...prevQuestion, questionToSelect];
+  //     }
+  //   });
+  // };
 
   if (!activeQuestion) {
     return <ActivityIndicator />;
@@ -51,13 +54,10 @@ export function QuestionWrapper() {
             data={activeQuestion.options}
             keyExtractor={item => item.value}
             renderItem={({ item }) => (
-              <DefaultButton
-                key={item.value}
-                onPress={setActiveQuestion}
-                title={item.label}
-              >
+              <Button key={item.value} onPress={handleQuestionChange}>
+                <ButtonTitle>Start quiz</ButtonTitle>
                 <MaterialIcon name="chevron-right" size={24} color="#612e3a" />
-              </DefaultButton>
+              </Button>
             )}
           />
         ) : null}
@@ -75,15 +75,16 @@ export function QuestionWrapper() {
               data={activeQuestion.options}
               keyExtractor={item => item.value}
               renderItem={({ item }) => (
-                <CheckboxButton
-                  item={item}
-                  selectedItems={selectedQuestions}
-                  handleChange={selectQuestion}
-                />
+                <View>{item.label}</View>
+                // <Button
+                //   item={item}
+                //   selectedItems={selectedQuestions}
+                //   handleChange={selectQuestion}
+                // />
               )}
             />
-            <DefaultButton
-              onPress={setActiveQuestion}
+            <Button
+              onPress={handleQuestionChange}
               style={{
                 backgroundColor:
                   selectedQuestions.length === 0 ? 'gray' : '#F63501',
@@ -93,7 +94,7 @@ export function QuestionWrapper() {
               disabled={selectedQuestions.length === 0}
             >
               <Text>Next</Text>
-            </DefaultButton>
+            </Button>
           </>
         ) : null}
       </>
@@ -105,7 +106,7 @@ export function QuestionWrapper() {
       <>
         <SectionTitle>{activeQuestion.label}</SectionTitle>
         <Description>{activeQuestion.description}</Description>
-        <DefaultButton
+        {/* <DefaultButton
           onPress={setActiveQuestion}
           style={{
             backgroundColor: '#F63501',
@@ -114,7 +115,7 @@ export function QuestionWrapper() {
           }}
         >
           <Text>Next</Text>
-        </DefaultButton>
+        </DefaultButton> */}
       </>
     );
   }
@@ -133,4 +134,10 @@ const Description = styled(Text)`
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.weight.semiBold};
   font-size: ${({ theme }) => theme.fonts.size.xl}px;
+`;
+
+const ButtonTitle = styled(Text)`
+  color: #612e3a;
+  font-family: ${({ theme }) => theme.fonts.weight.regular};
+  font-size: 20px;
 `;
