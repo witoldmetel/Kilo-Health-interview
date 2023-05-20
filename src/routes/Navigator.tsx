@@ -6,9 +6,10 @@ import { NavigationContainer, NavigationState } from '@react-navigation/native';
 
 import { QuestionsScreen } from '../screens/QuestionsScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { AnswersScreen } from '../screens/AnswersScreen';
 import { Route } from './RouteNames';
 
-const disabledAndroidBackScreens: string[] = [Route.Demo];
+const disabledAndroidBackScreens: string[] = [];
 
 let currentRouteName = 'unknown';
 let previousRouteName = 'unknown';
@@ -53,6 +54,7 @@ const Navigator = () => {
       >
         <Stack.Screen name={Route.Home} component={HomeScreen} />
         <Stack.Screen name={Route.Questions} component={QuestionsScreen} />
+        <Stack.Screen name={Route.Answers} component={AnswersScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

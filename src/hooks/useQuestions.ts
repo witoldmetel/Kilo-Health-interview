@@ -30,7 +30,7 @@ export const useQuestions = () => {
         }),
       );
     } else {
-      navigation.navigate('home');
+      navigation.navigate('answers');
     }
   };
 

@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, FlatList, Text } from 'react-native';
-import { Button, Checkbox, CheckboxList } from '@components/index';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { Button, CheckboxList } from '@components/index';
 import styled from 'styled-components';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Question } from '@typings/questions';
 
 import { useQuestions } from '../../hooks/useQuestions';
 
 export function QuestionWrapper() {
   const { handleQuestionChange, activeQuestion } = useQuestions();
 
-  const [selectAll, setSelectAll] = useState<boolean>(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-
-  const handleSelectAll = () => {
-    const updatedValues = selectAll
-      ? []
-      : (activeQuestion as Question).options.map(item => item.value);
-
-    setSelectAll(prev => !prev);
-    setSelectedValues(updatedValues);
-  };
 
   const handleSelectionChange = (updatedValues: string[]) => {
     setSelectedValues(updatedValues);
@@ -49,6 +38,8 @@ export function QuestionWrapper() {
                 <MaterialIcon name="chevron-right" size={24} color="#612e3a" />
               </Button>
             )}
+            style={{ paddingHorizontal: 4, paddingVertical: 8 }}
+            ItemSeparatorComponent={() => <View style={{ height: 2 }} />}
           />
         ) : null}
       </>
@@ -61,13 +52,6 @@ export function QuestionWrapper() {
         <SectionTitle>{activeQuestion.label}</SectionTitle>
         {'options' in activeQuestion ? (
           <>
-            <Checkbox
-              label={selectAll ? 'Deselect All' : 'Select All'}
-              value={selectedValues}
-              selected={selectAll}
-              onSelect={handleSelectAll}
-              style={{ padding: 2, marginBottom: 10 }}
-            />
             <CheckboxList
               items={activeQuestion.options}
               selectedValues={selectedValues}
@@ -116,21 +100,25 @@ const SectionTitle = styled(Text)`
   font-family: ${({ theme }) => theme.fonts.weight.semiBold};
   font-size: ${({ theme }) => theme.fonts.size.xxxl}px;
   margin-vertical: 16px;
+  margin-horizontal: 4px;
 `;
 
 const Description = styled(Text)`
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.weight.semiBold};
+  color: #612e3a;
+  font-family: ${({ theme }) => theme.fonts.weight.regular};
   font-size: ${({ theme }) => theme.fonts.size.xl}px;
 `;
 
 const ButtonTitle = styled(Text)`
   color: #612e3a;
   font-family: ${({ theme }) => theme.fonts.weight.regular};
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const ButtonNext = styled(Button)<{ selectedValuesLength: number }>`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   justify-content: center;
   border-radius: 12;
   border-color: 'transparent';

@@ -34,4 +34,5 @@ const Container = styled(SafeAreaView)`
 
 const Wrapper = styled(View)`
   margin: 16px;
+  flex: 1;
 `;
