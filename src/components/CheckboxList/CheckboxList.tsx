@@ -48,7 +48,7 @@ export function CheckboxList<T>({
         />
       )}
       keyExtractor={item => item.label}
-      style={{ padding: 2 }}
+      style={{ paddingHorizontal: 4, paddingVertical: 8 }}
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
       testID="checkbox-list"
     />
