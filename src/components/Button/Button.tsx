@@ -39,11 +39,11 @@ export function Button({
         styles.button,
         buttonStyle,
         variant !== 'text' && styles.shadowStyle,
-        style,
         {
           opacity: pressed ? 0.6 : 1,
           justifyContent: children ? 'space-between' : 'center',
         },
+        style,
       ]}
       onPress={onPress}
       disabled={disabled}

@@ -1,44 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
-import { Button } from '@components/index';
+import React, { useState } from 'react';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
+import { Button, Checkbox, CheckboxList } from '@components/index';
 import styled from 'styled-components';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { QuestionOption } from '@typings/questions';
+import { Question } from '@typings/questions';
 
 import { useQuestions } from '../../hooks/useQuestions';
 
 export function QuestionWrapper() {
   const { handleQuestionChange, activeQuestion } = useQuestions();
-  const [selectedQuestions, setSelectedQuestions] = useState<QuestionOption[]>(
-    [],
-  );
 
-  console.log(
-    'file: QuestionWrapper.tsx:17 ~ QuestionWrapper ~ activeQuestion:',
-    activeQuestion,
-  );
+  const [selectAll, setSelectAll] = useState<boolean>(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-  useEffect(() => {
-    setSelectedQuestions([]);
-  }, []);
+  const handleSelectAll = () => {
+    const updatedValues = selectAll
+      ? []
+      : (activeQuestion as Question).options.map(item => item.value);
 
-  // const selectQuestion = (value: string) => {
-  //   const questionToSelect = activeQuestion.options.find(
-  //     question => value === question.value,
-  //   ) as QuestionOption;
+    setSelectAll(prev => !prev);
+    setSelectedValues(updatedValues);
+  };
 
-  //   const isQuestionSelected = selectedQuestions.some(
-  //     selectedQuestion => selectedQuestion.value === value,
-  //   );
-
-  //   setSelectedQuestions(prevQuestion => {
-  //     if (isQuestionSelected) {
-  //       return prevQuestion.filter(item => item.value !== value);
-  //     } else {
-  //       return [...prevQuestion, questionToSelect];
-  //     }
-  //   });
-  // };
+  const handleSelectionChange = (updatedValues: string[]) => {
+    setSelectedValues(updatedValues);
+  };
 
   if (!activeQuestion) {
     return <ActivityIndicator />;
@@ -54,8 +40,12 @@ export function QuestionWrapper() {
             data={activeQuestion.options}
             keyExtractor={item => item.value}
             renderItem={({ item }) => (
-              <Button key={item.value} onPress={handleQuestionChange}>
-                <ButtonTitle>Start quiz</ButtonTitle>
+              <Button
+                key={item.value}
+                onPress={handleQuestionChange}
+                variant="outlined"
+              >
+                <ButtonTitle>{item.label}</ButtonTitle>
                 <MaterialIcon name="chevron-right" size={24} color="#612e3a" />
               </Button>
             )}
@@ -71,30 +61,28 @@ export function QuestionWrapper() {
         <SectionTitle>{activeQuestion.label}</SectionTitle>
         {'options' in activeQuestion ? (
           <>
-            <FlatList
-              data={activeQuestion.options}
-              keyExtractor={item => item.value}
-              renderItem={({ item }) => (
-                <View>{item.label}</View>
-                // <Button
-                //   item={item}
-                //   selectedItems={selectedQuestions}
-                //   handleChange={selectQuestion}
-                // />
-              )}
+            <Checkbox
+              label={selectAll ? 'Deselect All' : 'Select All'}
+              value={selectedValues}
+              selected={selectAll}
+              onSelect={handleSelectAll}
+              style={{ padding: 2, marginBottom: 10 }}
             />
-            <Button
+            <CheckboxList
+              items={activeQuestion.options}
+              selectedValues={selectedValues}
+              onSelectionChange={handleSelectionChange}
+            />
+            <ButtonNext
               onPress={handleQuestionChange}
-              style={{
-                backgroundColor:
-                  selectedQuestions.length === 0 ? 'gray' : '#F63501',
-                borderRadius: 12,
-                borderColor: 'transparent',
-              }}
-              disabled={selectedQuestions.length === 0}
+              selectedValuesLength={selectedValues.length}
+              disabled={selectedValues.length === 0}
+              variant="contained"
             >
-              <Text>Next</Text>
-            </Button>
+              <ButtonTextNext selectedValuesLength={selectedValues.length}>
+                Next
+              </ButtonTextNext>
+            </ButtonNext>
           </>
         ) : null}
       </>
@@ -106,16 +94,16 @@ export function QuestionWrapper() {
       <>
         <SectionTitle>{activeQuestion.label}</SectionTitle>
         <Description>{activeQuestion.description}</Description>
-        {/* <DefaultButton
-          onPress={setActiveQuestion}
-          style={{
-            backgroundColor: '#F63501',
-            borderRadius: 12,
-            borderColor: 'transparent',
-          }}
+        <ButtonNext
+          onPress={handleQuestionChange}
+          selectedValuesLength={selectedValues.length}
+          disabled={selectedValues.length === 0}
+          variant="contained"
         >
-          <Text>Next</Text>
-        </DefaultButton> */}
+          <ButtonTextNext selectedValuesLength={selectedValues.length}>
+            Next
+          </ButtonTextNext>
+        </ButtonNext>
       </>
     );
   }
@@ -124,10 +112,10 @@ export function QuestionWrapper() {
 }
 
 const SectionTitle = styled(Text)`
-  color: ${({ theme }) => theme.colors.text};
+  color: #410413;
   font-family: ${({ theme }) => theme.fonts.weight.semiBold};
   font-size: ${({ theme }) => theme.fonts.size.xxxl}px;
-  margin-vertical: 6px;
+  margin-vertical: 16px;
 `;
 
 const Description = styled(Text)`
@@ -140,4 +128,19 @@ const ButtonTitle = styled(Text)`
   color: #612e3a;
   font-family: ${({ theme }) => theme.fonts.weight.regular};
   font-size: 20px;
+`;
+
+const ButtonNext = styled(Button)<{ selectedValuesLength: number }>`
+  justify-content: center;
+  border-radius: 12;
+  border-color: 'transparent';
+  background-color: ${({ selectedValuesLength }) =>
+    selectedValuesLength === 0 ? 'gray' : '#F63501'};
+`;
+
+const ButtonTextNext = styled(Text)<{ selectedValuesLength: number }>`
+  font-family: ${({ theme }) => theme.fonts.weight.semiBold};
+  font-size: 16px;
+  color: ${({ selectedValuesLength }) =>
+    selectedValuesLength === 0 ? 'black' : 'white'};
 `;

@@ -1,30 +1,28 @@
 import { Button, QuestionWrapper } from '@components/index';
 import React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { useQuestions } from '../hooks/useQuestions';
+
 export const QuestionsScreen: React.FC = () => {
   const navigation = useNavigation();
-
-  // @todo: Temporary
-  // if (questions.length === 0) {
-  //   return (
-  //     <Container>
-  //       <ActivityIndicator />
-  //     </Container>
-  //   );
-  // }
+  const { isLoading } = useQuestions();
 
   return (
     <Container>
-      <Wrapper>
-        <Button onPress={() => navigation.goBack()} text="Close quiz">
-          <MaterialIcon name="close" size={24} color="#612e3a" />
-        </Button>
-        <QuestionWrapper />
-      </Wrapper>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Wrapper>
+          <Button onPress={() => navigation.goBack()} text="Close quiz">
+            <MaterialIcon name="close" size={24} color="#612e3a" />
+          </Button>
+          <QuestionWrapper />
+        </Wrapper>
+      )}
     </Container>
   );
 };

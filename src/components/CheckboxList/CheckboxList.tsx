@@ -1,7 +1,7 @@
-import React from "react";
-import { FlatList, View } from "react-native";
+import React from 'react';
+import { FlatList, View } from 'react-native';
 
-import { Checkbox } from "../Checkbox/Checkbox";
+import { Checkbox } from '../Checkbox/Checkbox';
 
 export type ICheckboxComponent<T> = {
   label: string;
@@ -29,7 +29,7 @@ export function CheckboxList<T>({
     const isSelected = selectedValues.includes(value);
 
     const updatedValues = isSelected
-      ? selectedValues.filter((selectedValue) => selectedValue !== value)
+      ? selectedValues.filter(selectedValue => selectedValue !== value)
       : [...selectedValues, value];
 
     onSelectionChange(updatedValues);
@@ -47,7 +47,7 @@ export function CheckboxList<T>({
           onSelect={handleCheckboxToggle}
         />
       )}
-      keyExtractor={(item) => item.label}
+      keyExtractor={item => item.label}
       style={{ padding: 2 }}
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
       testID="checkbox-list"
