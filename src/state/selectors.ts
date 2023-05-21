@@ -1,27 +1,27 @@
-import { QuestionsReducerState } from './app/QuestionsSlice';
+import { QuizReducerState } from './app/QuizSlice';
 
 export const selectQuestions = ({
-  questionsReducer,
+  quizReducer,
 }: {
-  questionsReducer: QuestionsReducerState;
-}) => questionsReducer.questions;
+  quizReducer: QuizReducerState;
+}) => quizReducer.questions;
 export const selectIsLoading = ({
-  questionsReducer,
+  quizReducer,
 }: {
-  questionsReducer: QuestionsReducerState;
-}) => questionsReducer.isLoading;
+  quizReducer: QuizReducerState;
+}) => quizReducer.isLoading;
 export const selectError = ({
-  questionsReducer,
+  quizReducer,
 }: {
-  questionsReducer: QuestionsReducerState;
-}) => questionsReducer.error;
+  quizReducer: QuizReducerState;
+}) => quizReducer.error;
 export const selectActiveQuestionIndex = ({
-  questionsReducer,
+  quizReducer,
 }: {
-  questionsReducer: QuestionsReducerState;
-}) => questionsReducer.activeQuestionIndex;
+  quizReducer: QuizReducerState;
+}) => quizReducer.activeQuestionIndex;
 export const selectActiveQuestion = ({
-  questionsReducer,
+  quizReducer,
 }: {
-  questionsReducer: QuestionsReducerState;
-}) => questionsReducer.activeQuestion;
+  quizReducer: QuizReducerState;
+}) => quizReducer.activeQuestion;

@@ -4,7 +4,7 @@ import { Question } from '@typings/questions';
 import { useNavigation } from '@react-navigation/native';
 
 // @todo: Old implementation, Now I use redux-toolkit
-export const useQuestions = () => {
+export const useQuiz = () => {
   const navigation = useNavigation();
 
   const [questions, setQuestions] = useState<Question[]>([]);

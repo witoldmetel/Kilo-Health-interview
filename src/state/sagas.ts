@@ -1,7 +1,7 @@
 import { fork } from 'typed-redux-saga';
 
-import { questionsSagas } from './app/QuestionsSaga';
+import { quizSagas } from './app/QuizSaga';
 
 export function* rootSaga() {
-  yield* fork(questionsSagas);
+  yield* fork(quizSagas);
 }

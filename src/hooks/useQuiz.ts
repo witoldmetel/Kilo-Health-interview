@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { setActiveQuestion } from '@state/app/QuestionsSlice';
+import { setActiveQuestion } from '@state/app/QuizSlice';
 import {
   selectActiveQuestion,
   selectActiveQuestionIndex,
@@ -9,9 +9,9 @@ import {
   selectIsLoading,
   selectQuestions,
 } from '@state/selectors';
-import { fetchQuestionsRequest } from '@state/app/QuestionsSaga';
+import { fetchQuestionsRequest } from '@state/app/QuizSaga';
 
-export const useQuestions = () => {
+export const useQuiz = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

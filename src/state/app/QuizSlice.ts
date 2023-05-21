@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Question } from '@typings/questions';
 
-export interface QuestionsReducerState {
+export interface QuizReducerState {
   questions: Question[];
   isLoading: boolean;
   error: unknown;
@@ -9,7 +9,7 @@ export interface QuestionsReducerState {
   activeQuestion: Question | null;
 }
 
-export const INITIAL_STATE: QuestionsReducerState = {
+export const INITIAL_STATE: QuizReducerState = {
   questions: [],
   isLoading: false,
   error: null,
@@ -17,7 +17,7 @@ export const INITIAL_STATE: QuestionsReducerState = {
   activeQuestion: null,
 };
 
-export const QuestionsSlice = createSlice({
+export const QuizSlice = createSlice({
   name: 'questions',
   initialState: INITIAL_STATE,
   reducers: {
@@ -34,6 +34,6 @@ export const QuestionsSlice = createSlice({
 });
 
 export const { setQuestions, setActiveQuestion, clearState } =
-  QuestionsSlice.actions;
+  QuizSlice.actions;
 
-export default QuestionsSlice.reducer;
+export default QuizSlice.reducer;

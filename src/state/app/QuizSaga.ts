@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'typed-redux-saga';
 import axios, { AxiosResponse } from 'axios';
 import { Question } from '@typings/questions';
 
-import { setActiveQuestion, setQuestions } from './QuestionsSlice';
+import { setActiveQuestion, setQuestions } from './QuizSlice';
 
 // Action types
 const FETCH_QUESTIONS_REQUEST = 'questions/fetchQuestionsRequest';
@@ -69,6 +69,6 @@ function* fetchQuestionsSaga() {
   }
 }
 
-export function* questionsSagas() {
+export function* quizSagas() {
   yield* takeLatest(FETCH_QUESTIONS_REQUEST, fetchQuestionsSaga);
 }

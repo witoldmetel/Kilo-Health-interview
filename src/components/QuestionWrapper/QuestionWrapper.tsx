@@ -3,12 +3,12 @@ import { ActivityIndicator, Text } from 'react-native';
 import { Button } from '@components/index';
 import styled from 'styled-components';
 
-import { useQuestions } from '../../hooks/useQuestions';
+import { useQuiz } from '../../hooks/useQuiz';
 import { SingleAnswerWrapper } from './SingleAnswerWrapper';
 import { MultiAnswersWrapper } from './MultiAnswersWrapper';
 
 export function QuestionWrapper() {
-  const { handleQuestionChange, activeQuestion } = useQuestions();
+  const { handleQuestionChange, activeQuestion } = useQuiz();
 
   if (!activeQuestion) {
     return <ActivityIndicator />;

@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
-import { clearState } from '@state/app/QuestionsSlice';
+import { clearState } from '@state/app/QuizSlice';
 
-import { useQuestions } from '../hooks/useQuestions';
+import { useQuiz } from '../hooks/useQuiz';
 
 export const QuestionsScreen: React.FC = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { isLoading } = useQuestions();
+  const { isLoading } = useQuiz();
 
   return (
     <Container>

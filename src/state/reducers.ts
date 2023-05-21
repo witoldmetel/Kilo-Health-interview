@@ -1,9 +1,9 @@
 import { AnyAction, CombinedState, combineReducers } from 'redux';
 
-import { QuestionsReducerState, QuestionsSlice } from './app/QuestionsSlice';
+import { QuizReducerState, QuizSlice } from './app/QuizSlice';
 
 export interface RootState {
-  questionsReducer: QuestionsReducerState;
+  quizReducer: QuizReducerState;
 }
 
 export interface PersistedAppState extends RootState {
@@ -11,7 +11,7 @@ export interface PersistedAppState extends RootState {
 }
 
 const combinedReducer = combineReducers<CombinedState<RootState>>({
-  questionsReducer: QuestionsSlice.reducer,
+  quizReducer: QuizSlice.reducer,
 });
 
 const rootReducer = (state: RootState | undefined, action: AnyAction) =>
