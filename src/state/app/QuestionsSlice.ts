@@ -33,6 +33,7 @@ export const QuestionsSlice = createSlice({
   },
 });
 
-export const { setQuestions, setActiveQuestion } = QuestionsSlice.actions;
+export const { setQuestions, setActiveQuestion, clearState } =
+  QuestionsSlice.actions;
 
 export default QuestionsSlice.reducer;
