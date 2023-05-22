@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { setActiveQuestion } from '@state/app/QuizSlice';
+import { setActiveQuestion, setAnswer } from '@state/app/QuizSlice';
 import {
   selectActiveQuestion,
   selectActiveQuestionIndex,
+  selectAnswers,
   selectError,
   selectIsLoading,
   selectQuestions,
@@ -20,6 +21,7 @@ export const useQuiz = () => {
   const error = useSelector(selectError);
   const activeQuestionIndex = useSelector(selectActiveQuestionIndex);
   const activeQuestion = useSelector(selectActiveQuestion);
+  const answers = useSelector(selectAnswers);
 
   const handleQuestionChange = () => {
     if (questions.length - 1 > activeQuestionIndex) {
@@ -34,6 +36,10 @@ export const useQuiz = () => {
     }
   };
 
+  const handleAnswerSelection = (answer: string | string[]) => {
+    dispatch(setAnswer({ questionIndex: activeQuestionIndex, answer }));
+  };
+
   useEffect(() => {
     dispatch(fetchQuestionsRequest());
   }, [dispatch]);
@@ -44,5 +50,7 @@ export const useQuiz = () => {
     questions,
     activeQuestion,
     handleQuestionChange,
+    answers,
+    handleAnswerSelection,
   };
 };

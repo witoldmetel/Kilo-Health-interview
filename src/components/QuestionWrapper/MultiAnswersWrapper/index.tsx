@@ -8,16 +8,19 @@ interface MultiAnswersWrapperProps {
   question: Question;
 
   handleQuestionChange: () => void;
+  handleAnswerSelection: (answer: string[]) => void;
 }
 
 export const MultiAnswersWrapper: React.FC<MultiAnswersWrapperProps> = ({
   question,
   handleQuestionChange,
+  handleAnswerSelection,
 }) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleSelectionChange = (updatedValues: string[]) => {
     setSelectedValues(updatedValues);
+    handleAnswerSelection(updatedValues);
   };
 
   return (

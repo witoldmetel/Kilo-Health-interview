@@ -8,11 +8,13 @@ import { Question } from '@typings/questions';
 interface SingleAnswerWrapperProps {
   question: Question;
   handleQuestionChange: () => void;
+  handleAnswerSelection: (answer: string) => void;
 }
 
 export const SingleAnswerWrapper: React.FC<SingleAnswerWrapperProps> = ({
   question,
   handleQuestionChange,
+  handleAnswerSelection,
 }) => (
   <>
     <SectionTitle>{question.label}</SectionTitle>
@@ -23,7 +25,10 @@ export const SingleAnswerWrapper: React.FC<SingleAnswerWrapperProps> = ({
         renderItem={({ item }) => (
           <Button
             key={item.value}
-            onPress={handleQuestionChange}
+            onPress={() => {
+              handleQuestionChange();
+              handleAnswerSelection(item.value);
+            }}
             variant="outlined"
           >
             <ButtonTitle>{item.label}</ButtonTitle>

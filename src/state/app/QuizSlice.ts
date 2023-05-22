@@ -7,6 +7,7 @@ export interface QuizReducerState {
   error: unknown;
   activeQuestionIndex: number;
   activeQuestion: Question | null;
+  selectedAnswers: Record<number, string | string[]>;
 }
 
 export const INITIAL_STATE: QuizReducerState = {
@@ -15,6 +16,7 @@ export const INITIAL_STATE: QuizReducerState = {
   error: null,
   activeQuestionIndex: 0,
   activeQuestion: null,
+  selectedAnswers: {},
 };
 
 export const QuizSlice = createSlice({
@@ -29,11 +31,16 @@ export const QuizSlice = createSlice({
       state.activeQuestionIndex = action.payload.index;
       state.activeQuestion = action.payload.question;
     },
+    setAnswer: (state, action) => {
+      const { questionIndex, answer } = action.payload;
+
+      state.selectedAnswers[questionIndex] = answer;
+    },
     clearState: () => INITIAL_STATE,
   },
 });
 
-export const { setQuestions, setActiveQuestion, clearState } =
+export const { setQuestions, setActiveQuestion, setAnswer, clearState } =
   QuizSlice.actions;
 
 export default QuizSlice.reducer;

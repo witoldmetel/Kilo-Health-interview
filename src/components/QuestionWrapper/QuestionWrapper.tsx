@@ -8,7 +8,8 @@ import { SingleAnswerWrapper } from './SingleAnswerWrapper';
 import { MultiAnswersWrapper } from './MultiAnswersWrapper';
 
 export function QuestionWrapper() {
-  const { handleQuestionChange, activeQuestion } = useQuiz();
+  const { handleQuestionChange, activeQuestion, handleAnswerSelection } =
+    useQuiz();
 
   if (!activeQuestion) {
     return <ActivityIndicator />;
@@ -19,6 +20,7 @@ export function QuestionWrapper() {
       <SingleAnswerWrapper
         question={activeQuestion}
         handleQuestionChange={handleQuestionChange}
+        handleAnswerSelection={handleAnswerSelection}
       />
     );
   }
@@ -28,6 +30,7 @@ export function QuestionWrapper() {
       <MultiAnswersWrapper
         question={activeQuestion}
         handleQuestionChange={handleQuestionChange}
+        handleAnswerSelection={handleAnswerSelection}
       />
     );
   }
