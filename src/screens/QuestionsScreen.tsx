@@ -1,18 +1,12 @@
-import { Button, QuestionWrapper } from '@components/index';
+import { QuestionWrapper, TopSection } from '@components/index';
 import React from 'react';
 import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import styled from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch } from 'react-redux';
-import { clearState } from '@state/app/QuizSlice';
 
 import { useQuiz } from '../hooks/useQuiz';
 
 export const QuestionsScreen: React.FC = () => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const { isLoading } = useQuiz();
+  const { isLoading, questions, activeQuestionIndex } = useQuiz();
 
   return (
     <Container>
@@ -20,16 +14,11 @@ export const QuestionsScreen: React.FC = () => {
         <ActivityIndicator />
       ) : (
         <Wrapper>
-          <Button
-            onPress={() => {
-              navigation.goBack();
-
-              dispatch(clearState());
-            }}
-            text="Close quiz"
-          >
-            <MaterialIcon name="close" size={24} color="#612e3a" />
-          </Button>
+          <TopSection
+            title={String(
+              `Step ${activeQuestionIndex + 1} of ${questions.length}`,
+            )}
+          />
           <QuestionWrapper />
         </Wrapper>
       )}

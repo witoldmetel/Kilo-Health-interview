@@ -1,14 +1,12 @@
 import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
-import { Button } from '@components/index';
+import { TopSection } from '@components/index';
 import styled from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { useQuiz } from '../hooks/useQuiz';
 
 export const AnswersScreen: React.FC = () => {
-  const navigation = useNavigation();
   const { answers } = useQuiz();
 
   const jsonString = JSON.stringify(answers, null, 2);
@@ -16,11 +14,11 @@ export const AnswersScreen: React.FC = () => {
   return (
     <Container>
       <Wrapper>
-        <Button onPress={() => navigation.navigate('home')} text="Close quiz">
-          <MaterialIcon name="close" size={24} color="#612e3a" />
-        </Button>
-        <TextAnswer>Answers:</TextAnswer>
-        <TextAnswer>{jsonString}</TextAnswer>
+        <TopSection />
+        <StyledViewContainer>
+          <TextAnswer>Answers:</TextAnswer>
+          <TextAnswer>{jsonString}</TextAnswer>
+        </StyledViewContainer>
       </Wrapper>
     </Container>
   );
@@ -37,8 +35,12 @@ const Wrapper = styled(View)`
   flex: 1;
 `;
 
+const StyledViewContainer = styled(ScrollView)`
+  margin-top: 26px;
+`;
+
 const TextAnswer = styled(Text)`
-  color: #612e3a;
-  font-family: ${({ theme }) => theme.fonts.weight.regular};
+  color: black;
+  font-family: ${({ theme }) => theme.fonts.weight.semiBold};
   font-size: ${({ theme }) => theme.fonts.size.xl}px;
 `;

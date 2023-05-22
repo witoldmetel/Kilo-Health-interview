@@ -48,6 +48,7 @@ export const useQuiz = () => {
     isLoading,
     error,
     questions,
+    activeQuestionIndex,
     activeQuestion,
     handleQuestionChange,
     answers,
