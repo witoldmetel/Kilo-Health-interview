@@ -20,7 +20,7 @@ export const TopSection: React.FC<{ title?: string }> = ({ title }) => {
 
       <TouchableOpacity
         onPress={() => {
-          navigation.goBack();
+          navigation.navigate('home');
 
           dispatch(clearState());
         }}

@@ -1,4 +1,4 @@
-import { QuestionWrapper, TopSection } from '@components/index';
+import { ProgressBar, QuestionWrapper, TopSection } from '@components/index';
 import React from 'react';
 import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import styled from 'styled-components';
@@ -18,6 +18,10 @@ export const QuestionsScreen: React.FC = () => {
             title={String(
               `Step ${activeQuestionIndex + 1} of ${questions.length}`,
             )}
+          />
+          <ProgressBar
+            step={activeQuestionIndex + 1}
+            totalSteps={questions.length}
           />
           <QuestionWrapper />
         </Wrapper>
